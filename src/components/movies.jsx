@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import Like from './common/like';
+import Pagination from './common/pagination';
+import { paginate } from '../utils/paginate';
 import { getMovies } from '../services/fakeMovieService';
 
 class Movies extends Component {
   state = {
-    movies: getMovies()
+    movies: getMovies(),
+    currentPage: 1,
+    pageSize: 5
   };
 
   handleDelete = movie => {
@@ -22,14 +26,22 @@ class Movies extends Component {
     this.setState({ movies });
   }
 
-  render() {
-    const { movies } = this.state;
+  handlePageChange = page => {
+    //console.log('Current page', page)
+    this.setState({ currentPage: page });
+  }
 
-    if(movies.length===0) return <p>There is no movie in the database.</p>;
+  render() {
+    const { movies: allMovies, currentPage, pageSize } = this.state;
+    const count = allMovies.length;
+
+    if(count===0) return <p>There is no movie in the database.</p>;
+
+    const movies = paginate(allMovies, currentPage, pageSize);
 
     return (
       <React.Fragment>
-        <p>Showing {movies.length} movies in the database.</p>
+        <p>Showing {count} movies in the database.</p>
         <table className="table">
           <thead>
             <tr>
@@ -46,7 +58,7 @@ class Movies extends Component {
               <tr key={movie._id}>
                 <td>{movie.title}</td>
                 <td>{movie.genre.name}</td>
-                <td>movie.numberInStock</td>
+                <td>{movie.numberInStock}</td>
                 <td>{movie.dailyRentalRate}</td>
                 <td><Like liked={movie.liked} onCLick={()=>this.handleLike(movie)} /></td>
                 <td><button onClick={()=>this.handleDelete(movie)} className="btn btn-danger btn-sm">Delete</button></td>
@@ -54,6 +66,12 @@ class Movies extends Component {
             ))}
           </tbody>
         </table>
+        <Pagination 
+          itemsCount={count}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={this.handlePageChange}
+        />
       </React.Fragment>
     )
   }

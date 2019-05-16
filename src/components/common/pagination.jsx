@@ -1,26 +1,26 @@
 import React from 'react';
+import { HashLink as Link } from 'react-router-hash-link';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-const Pagination = props => {
-  const { itemsCount, pageSize, currentPage, onPageChange } = props;
+const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
   const pagesCount = Math.ceil(itemsCount / pageSize);
   if(pagesCount===1) return null;
   const pages = _.range(1, pagesCount+1);
-  //console.log(currentPage);
+  
   return (
     <nav>
       <ul className="pagination">
         <li className="page-item">
-          <a className="page-link"><span aria-hidden="true">&laquo;</span></a>
+          <Link to="" className="page-link"><span aria-hidden="true">&laquo;</span></Link>
         </li>
         {pages.map(page => (
           <li key={page} className={ page===currentPage ? 'page-item active' : 'page-item'}>
-            <a className="page-link" onClick={()=>onPageChange(page)}>{page}</a>
+            <Link to="" className="page-link" onClick={()=>onPageChange(page)}>{page}</Link>
           </li>
         ))}
         <li className="page-item">
-          <a className="page-link"><span aria-hidden="true">&raquo;</span></a>
+          <Link to="" className="page-link"><span aria-hidden="true">&raquo;</span></Link>
         </li>
       </ul>
     </nav>

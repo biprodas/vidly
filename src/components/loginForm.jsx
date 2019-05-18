@@ -82,6 +82,7 @@ class LoginForm extends Component {
               />
               <div className="text-center">
                 <button 
+                  disabled={this.validate()}
                   className="btn btn-primary px-4 font-weight-bold mt-3"
                 >
                   Login

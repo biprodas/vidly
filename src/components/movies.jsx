@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import MoviesTable from './moviesTable';
 import ListGroup from './common/listGroup';
@@ -99,7 +100,16 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <p>Showing {totalCount} movies in the database.</p>
+          <div className="row">
+            <p className="col-8">Showing {totalCount} movies in the database.</p>
+            <div className="col-4 text-right">
+              <Link 
+                to="/movies/new" 
+                className="btn brn-sm btn-info font-weight-bold">
+                <i className="fa fa-plus"></i> New Movie
+              </Link>
+            </div>
+          </div>
           <MoviesTable 
             movies={movies}
             sortColumn={sortColumn}
